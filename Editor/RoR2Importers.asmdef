@@ -1,0 +1,17 @@
+{
+    "name": "RoR2Importers",
+    "references": [
+        "ThunderKit.Core",
+        "ThunderKit.Common",
+        "BsDiff"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
