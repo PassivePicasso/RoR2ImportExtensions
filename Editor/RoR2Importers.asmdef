@@ -3,7 +3,8 @@
     "references": [
         "ThunderKit.Core",
         "ThunderKit.Common",
-        "BsDiff"
+        "BsDiff",
+        "ThunderKit.Markdown"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
