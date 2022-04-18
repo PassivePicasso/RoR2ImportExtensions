@@ -1,0 +1,7 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <uie:PropertyField binding-path="createRoR2Source" tooltip="Creates a new Thunderstore Source and sets the URL to &quot;https://thunderstore.io&quot;" />
+    <uie:PropertyField binding-path="installModsFromRoR2Source" tooltip="Installs the mods listed in &quot;RoR 2 Mod Guids&quot;" />
+    <uie:PropertyField binding-path="ror2ModGUIDs" tooltip="A list of GUIDS of mods to install to the project" />
+    <uie:PropertyField binding-path="installThunderKitExtensions" tooltip="Installs the extensions listed in &quot;Editor Extension GUIDS" />
+    <uie:PropertyField binding-path="editorExtensionGUIDs" tooltip="A list of GUIDS of extensions to install to the project" />
+</ui:UXML>
