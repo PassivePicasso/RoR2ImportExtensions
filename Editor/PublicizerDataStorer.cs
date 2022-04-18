@@ -95,7 +95,6 @@ namespace RiskOfThunder.RoR2Importer
             var relativePath = AssetDatabase.GetAssetPath(nstrip);
             var fullPath = Path.GetFullPath(relativePath);
             var fileName = Path.GetFileName(fullPath);
-            Debug.Log(fileName == "NStrip.exe");
 
             if (fileName != "NStrip.exe")
             {

@@ -49,7 +49,7 @@ namespace RiskOfThunder.RoR2Importer
 
             List<string> arguments = new List<string>
             {
-                "NStrip",
+                "nstrip.exe",
                 "-p",
                 "-n",
                 $"-d \"{ror2ManagedDir}\"",
@@ -61,8 +61,9 @@ namespace RiskOfThunder.RoR2Importer
                 $"\"{outputPath}\""
             };
 
-            List<string> log = new List<string> { $"Publicizedd {assemblyFileName} with the following arguments:" };
+            List<string> log = new List<string> { $"Publicized {assemblyFileName} with the following arguments:" };
             log.AddRange(StripAssembly(arguments, nstripPath));
+            Debug.Log(string.Join("\n", log));
 
             return outputPath;
         }
@@ -75,20 +76,17 @@ namespace RiskOfThunder.RoR2Importer
             {
                 args.Append(arguments[i]);
                 args.Append(" ");
-                logger.Add($"Argument {i}: '{arguments[i]}'");
+                logger.Add($"Argument {i}: {arguments[i]}");
             }
 
             ProcessStartInfo psi = new ProcessStartInfo(nstripPath)
             {
                 WorkingDirectory = Path.GetDirectoryName(nstripPath),
                 Arguments = args.ToString(),
-                UseShellExecute = true
             };
             var process = System.Diagnostics.Process.Start(psi);
-            process.WaitForExit();
+            process.WaitForExit(5000);
             return logger;
         }
-
-
     }
 }
