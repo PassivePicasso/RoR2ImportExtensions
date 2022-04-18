@@ -61,8 +61,8 @@ namespace RiskOfThunder.RoR2Importer
         {
             if(createRoR2Source)
             {
-                if(ror2Source == null)
-                    CreateRoR2Source();
+                if (ror2Source == null)
+                    GetOrCreateRoR2Source();
                 PackageSource.LoadAllSources();
                 InstallModsFromRoR2Source();
             }
@@ -70,59 +70,110 @@ namespace RiskOfThunder.RoR2Importer
             InstallThunderKitExtensions();
         }
 
-        private void CreateRoR2Source()
+        private void GetOrCreateRoR2Source()
         {
+            var pss = ThunderKitSetting.GetOrCreateSettings<PackageSourceSettings>();
+            foreach(var source in pss.PackageSources)
+            {
+                if(source is ThunderstoreSource tsSource)
+                {
+                    if (tsSource.Url == "https://thunderstore.io")
+                    {
+                        ror2Source = tsSource;
+                        return;
+                    }
+                }
+            }
+
+            Debug.Log($"Creating RoR2 Thunderstore Source");
             ror2Source = CreateInstance<ThunderstoreSource>();
             ror2Source.Url = "https://thunderstore.io";
             AssetDatabase.CreateAsset(ror2Source, "Assets/ThunderKitSettings/RoR2Thunderstore.asset");
-            PackageSource.LoadAllSources();
         }
 
         private async void InstallModsFromRoR2Source()
         {
-            foreach(CommonRoR2Dependencies dependency in Enum.GetValues(typeof(CommonRoR2Dependencies)))
+            try
             {
-                if (!ror2Dependencies.HasFlag(dependency))
-                    continue;
-
-                string valueName = dependency.GetDescription();
-
-                var pss = ThunderKitSetting.GetOrCreateSettings<PackageSourceSettings>();
-                foreach(var source in pss.PackageSources)
+                EditorApplication.LockReloadAssemblies();
+                foreach(CommonRoR2Dependencies dependency in Enum.GetValues(typeof(CommonRoR2Dependencies)))
                 {
-                    var package = source.Packages.FirstOrDefault(pkg => pkg.DependencyId == valueName);
-                    if (package == null)
+                    if (!ror2Dependencies.HasFlag(dependency))
                         continue;
 
-                    if (package.Installed)
-                        continue;
+                    string valueName = dependency.GetDescription();
 
-                    await source.InstallPackage(package, "latest");
+                    var pss = ThunderKitSetting.GetOrCreateSettings<PackageSourceSettings>();
+                    foreach(var source in pss.PackageSources)
+                    {
+                        var package = source.Packages.FirstOrDefault(pkg => pkg.DependencyId == valueName);
+                        if (package == null)
+                        {
+                            Debug.LogWarning($"Could not find package with DependencyId of {valueName}");
+                            continue;
+                        }
+
+                        if (package.Installed)
+                        {
+                            Debug.LogWarning($"Not installing package with DependencyId of {valueName} because it's already installed");
+                            continue;
+                        }
+
+                        Debug.Log($"Installing latest version of package {valueName});");
+                        await source.InstallPackage(package, "latest");
+                    }
                 }
+            }
+            catch(Exception ex)
+            {
+                Debug.LogError(ex);
+            }
+            finally
+            {
+                EditorApplication.UnlockReloadAssemblies();
             }
         }
 
         private async void InstallThunderKitExtensions()
         {
-            foreach(CommonRoR2ThunderKitExtensions extension in Enum.GetValues(typeof(CommonRoR2ThunderKitExtensions)))
+            try
             {
-                if (!thunderKitExtensions.HasFlag(extension))
-                    continue;
-
-                string valueName = extension.GetDescription();
-
-                var pss = ThunderKitSetting.GetOrCreateSettings<PackageSourceSettings>();
-                foreach(var source in pss.PackageSources)
+                EditorApplication.LockReloadAssemblies();
+                foreach (CommonRoR2Dependencies dependency in Enum.GetValues(typeof(CommonRoR2Dependencies)))
                 {
-                    var package = source.Packages.FirstOrDefault(pkg => pkg.DependencyId == valueName);
-                    if (package == null)
+                    if (!ror2Dependencies.HasFlag(dependency))
                         continue;
 
-                    if (package.Installed)
-                        continue;
+                    string valueName = dependency.GetDescription();
 
-                    await source.InstallPackage(package, "latest");
+                    var pss = ThunderKitSetting.GetOrCreateSettings<PackageSourceSettings>();
+                    foreach (var source in pss.PackageSources)
+                    {
+                        var package = source.Packages.FirstOrDefault(pkg => pkg.DependencyId == valueName);
+                        if (package == null)
+                        {
+                            Debug.LogWarning($"Could not find package with DependencyId of {valueName}");
+                            continue;
+                        }
+
+                        if (package.Installed)
+                        {
+                            Debug.LogWarning($"Not installing package with DependencyId of {valueName} because it's already installed");
+                            continue;
+                        }
+
+                        Debug.Log($"Installing latest version of package {valueName});");
+                        await source.InstallPackage(package, "latest");
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError(ex);
+            }
+            finally
+            {
+                EditorApplication.UnlockReloadAssemblies();
             }
         }
     }
