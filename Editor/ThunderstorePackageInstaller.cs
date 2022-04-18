@@ -35,7 +35,7 @@ namespace RiskOfThunder.RoR2Importer
 
         protected override VisualElement CreateProperties()
         {
-            rootElement = TemplateHelpers.LoadTemplateInstance("Packages/riskofthunder-rorimporter/Editor/ThunderstorePackageInstaller.uxml", rootElement);
+            rootElement = TemplateHelpers.LoadTemplateInstance("Packages/riskofthunder-ror2importer/Editor/ThunderstorePackageInstaller.uxml", rootElement);
             rootElement.AddEnvironmentAwareSheets(Constants.ThunderKitSettingsTemplatePath);
             return rootElement;
         }

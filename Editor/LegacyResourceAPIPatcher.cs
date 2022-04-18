@@ -27,7 +27,7 @@ namespace RiskOfThunder.RoR2Importer
             var settings = ThunderKitSetting.GetOrCreateSettings<ThunderKitSettings>();
             var legacyResourceAPIOrig = Path.GetFullPath(Path.Combine(settings.ManagedAssembliesPath, "LegacyResourcesAPI.dll"));
             var legacyResourceAPINew = Path.GetFullPath(Path.Combine(settings.PackageFilePath, "LegacyResourcesAPI.dll"));
-            var diffPath = Path.GetFullPath(Path.Combine("Packages", "ror2importer", "BinaryDiff", "LegacyResourcesAPI.diff"));
+            var diffPath = Path.GetFullPath(Path.Combine("Packages", "riskofthunder-ror2importer", "BinaryDiff", "LegacyResourcesAPI.diff"));
             var packagePath = Path.GetDirectoryName(legacyResourceAPINew);
 
             if (File.Exists(legacyResourceAPINew))

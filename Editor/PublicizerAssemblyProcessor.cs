@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using ThunderKit.Core.Data;
 using ThunderKit.Core.Paths;
 using System.Text;
+using System.Linq;
 
 namespace RiskOfThunder.RoR2Importer
 {
@@ -49,16 +50,15 @@ namespace RiskOfThunder.RoR2Importer
 
             List<string> arguments = new List<string>
             {
-                "nstrip.exe",
                 "-p",
                 "-n",
-                $"-d \"{ror2ManagedDir}\"",
+                "-d", ror2ManagedDir,
                 "-cg",
-                "-cg-exclude-events",
-                "-remove-readonly",
-                "-unity-non-serialized",
-                $"\"{assemblyPath}\"",
-                $"\"{outputPath}\""
+                "--cg-exclude-events",
+                "--remove-readonly",
+                "--unity-non-serialized",
+                assemblyPath,
+                outputPath
             };
 
             List<string> log = new List<string> { $"Publicized {assemblyFileName} with the following arguments:" };
@@ -70,20 +70,19 @@ namespace RiskOfThunder.RoR2Importer
 
         private List<string> StripAssembly(List<string> arguments, string nstripPath)
         {
-            var args = new StringBuilder();
             var logger = new List<string>();
             for (int i = 0; i < arguments.Count; i++)
             {
-                args.Append(arguments[i]);
-                args.Append(" ");
                 logger.Add($"Argument {i}: {arguments[i]}");
             }
 
             ProcessStartInfo psi = new ProcessStartInfo(nstripPath)
             {
                 WorkingDirectory = Path.GetDirectoryName(nstripPath),
-                Arguments = args.ToString(),
             };
+
+            psi.Arguments = string.Join(" ", arguments.Select(arg => $"\"{arg}\""));
+
             var process = System.Diagnostics.Process.Start(psi);
             process.WaitForExit(5000);
             return logger;
