@@ -8,7 +8,7 @@ namespace RiskOfThunder.RoR2Importer
     {
         public override string Name => "RoR2 Assembly Whitelist";
 
-        public override int Priority => 0;
+        public override int Priority => 750;
 
         public override IEnumerable<string> Process(IEnumerable<string> whitelist)
         {

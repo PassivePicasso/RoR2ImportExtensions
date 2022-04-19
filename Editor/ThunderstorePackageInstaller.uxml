@@ -1,0 +1,20 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <uie:PropertyField
+        binding-path="createRoR2Source"
+        label="Create RoR2 Thunderstore Source"
+        tooltip="Creates a new Thunderstore Source and sets the URL to &quot;https://thunderstore.io&quot;" />
+    <uie:EnumFlagsField
+        binding-path="ror2Dependencies"
+        name="ror2-dependencies"
+        class="thunderkit-field-input"
+        type="RiskOfThunder.RoR2Importer.ThunderstorePackageInstaller+CommonRoR2Dependencies, RoR2Importers, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+        label="Common RoR2 Dependencies"
+        tooltip="An enum of common ror2 dependencies, each flag represents a mod that'll be installed to the project" />
+    <uie:EnumFlagsField
+        binding-path="thunderKitExtensions"
+        name="thunderkit-extensions"
+        class="thunderkit-field-input"
+        type="RiskOfThunder.RoR2Importer.ThunderstorePackageInstaller+CommonRoR2ThunderKitExtensions, RoR2Importers, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null"
+        label="Common RoR2 ThunderKit Extensions"
+        tooltip="An enum of common thunderkit extensions, each flag represents an extension that'll be installed to the project" />
+</ui:UXML>

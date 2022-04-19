@@ -18,6 +18,9 @@ namespace RiskOfThunder.RoR2Importer
     {
         public override string Name => string.IsNullOrEmpty(extensionName) ? extensionName = "RoR2 Package Installer" : extensionName;
 
+        public override string Description => $"Modifies your project's Packages folder:" +
+            $"\nInstall Unity's PostProcessingPackage (Version 2.3.0)" +
+            $"\nRemoves Unity's TextMeshPro package";
         public override int Priority => Constants.ConfigPriority.AssemblyImport + 250_000;
 
         public override void Execute()
