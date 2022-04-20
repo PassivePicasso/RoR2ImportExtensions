@@ -1,26 +1,23 @@
-﻿using System.IO;
-using ThunderKit.Core.Config;
-using UnityEngine;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using ThunderKit.Core.Config;
+using ThunderKit.Core.Data;
+using UnityEditor;
+using UnityEngine;
 using Debug = UnityEngine.Debug;
 using UObject = UnityEngine.Object;
-using System.Threading.Tasks;
-using UnityEditor;
-using System.Collections.Generic;
-using ThunderKit.Core.Data;
-using ThunderKit.Core.Paths;
-using System.Text;
-using System.Linq;
 
 namespace RiskOfThunder.RoR2Importer
 {
-    public class PublicizerAssemblyProcessor : AssemblyProcessor
+    public class AssemblyPublicizerProcessor : AssemblyProcessor
     {
         public override int Priority => 500;
-        public override string Name => $"Assembly Publicizer";
+        public override string Name => $"Assembly Publicizer Processor";
         public override string Process(string assemblyPath)
         {
-            PublicizerDataStorer dataStorer = PublicizerDataStorer.GetDataStorer();
+            AssemblyPublicizerConfiguration dataStorer = AssemblyPublicizerConfiguration.GetDataStorer();
             //Publicizer not enabled? dont publicize
             if(!dataStorer.enabled)
                 return assemblyPath;
@@ -30,7 +27,7 @@ namespace RiskOfThunder.RoR2Importer
             if (!dataStorer.assemblyNames.Contains(assemblyFileName))
                 return assemblyPath;
 
-            UObject nstripExe = dataStorer.nStripExecutable;
+            UObject nstripExe = dataStorer.NStripExecutable;
             if (nstripExe == null)
             {
                 Debug.LogWarning($"Could not strip assembly {assemblyFileName}, as NStrip has not been located.");
