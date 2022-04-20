@@ -1,16 +1,8 @@
-using System.Collections;
 using System.IO;
-using System.Threading.Tasks;
-using ThunderKit.Common;
 using ThunderKit.Core.Config;
 using ThunderKit.Core.Data;
 using ThunderKit.Core.Utilities;
 using UnityEditor;
-using UnityEngine;
-#if UNITY_2019
-#elif UNITY_2018
-using UnityEngine.Experimental.UIElements;
-#endif
 
 
 namespace RiskOfThunder.RoR2Importer
