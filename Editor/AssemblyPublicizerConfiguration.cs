@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using ThunderKit.Core.Config;
@@ -7,22 +6,22 @@ using ThunderKit.Core.Data;
 using ThunderKit.Markdown;
 using UnityEditor;
 using UnityEditor.UIElements;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace RiskOfThunder.RoR2Importer
 {
-    public class PublicizerDataStorer : OptionalExecutor
+    using static ThunderKit.Common.Constants;
+    public class AssemblyPublicizerConfiguration : OptionalExecutor
     {
         public const string NStripExePath = "Packages/bepinex-nstrip/NStrip.exe";
         public override string Name => "Assembly Publicizer";
-        public override string Description => "Assemblies listed in here will be publicized using NStrip." +
+        public override string Description => "Listed assemblies will be publicized using NStrip." +
             "\nPublicized assemblies retain their inspector look and functionality, this does not strip assemblies.";
-        public override int Priority => ThunderKit.Common.Constants.ConfigPriority.AssemblyImport + 125_000;
+        public override int Priority => Constants.Priority.AssemblyPublicizerConfiguration;
 
         public List<string> assemblyNames = new List<string> { "RoR2.dll", "KinematicCharacterController.dll" };
 
-        public UnityEngine.Object nStripExecutable;
+        public UnityEngine.Object NStripExecutable;
 
         private SerializedObject serializedObject;
         private VisualElement rootVisualElement;
@@ -46,7 +45,7 @@ namespace RiskOfThunder.RoR2Importer
         protected override VisualElement CreateProperties()
         {
             serializedObject = new SerializedObject(this);
-            var executableProperty = serializedObject.FindProperty(nameof(nStripExecutable));
+            var executableProperty = serializedObject.FindProperty(nameof(NStripExecutable));
             var assemblyList = serializedObject.FindProperty(nameof(assemblyNames));
             rootVisualElement = new VisualElement();
 
@@ -111,15 +110,24 @@ namespace RiskOfThunder.RoR2Importer
 
         private bool TryToFindNStripExecutable(out UnityEngine.Object nstripExecutable)
         {
-            var nstrip = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(NStripExePath);
-            nstripExecutable = nstrip == null ? null : nstrip;
-            return nstripExecutable != null;
+            nstripExecutable = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(NStripExePath);
+            if (!nstripExecutable)
+            {
+                var nstripPath = AssetDatabase.FindAssets("", FindAllFolders)
+                             .Select(guid => AssetDatabase.GUIDToAssetPath(guid))
+                             .FirstOrDefault(path => path.EndsWith("NStrip.exe"));
+
+                nstripExecutable = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(nstripPath);
+            }
+
+            return nstripExecutable;
         }
 
-        internal static PublicizerDataStorer GetDataStorer()
+
+        internal static AssemblyPublicizerConfiguration GetDataStorer()
         {
             var settings = ThunderKitSetting.GetOrCreateSettings<ImportConfiguration>();
-            var publicizerDataStorer = settings.ConfigurationExecutors.OfType<PublicizerDataStorer>().FirstOrDefault();
+            var publicizerDataStorer = settings.ConfigurationExecutors.OfType<AssemblyPublicizerConfiguration>().FirstOrDefault();
             return publicizerDataStorer;
         }
     }
