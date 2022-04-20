@@ -1,6 +1,4 @@
-using System;
 using System.IO;
-using ThunderKit.Common;
 using ThunderKit.Core.Config;
 using UnityEditor;
 using UnityEditor.PackageManager;
@@ -14,14 +12,14 @@ using UnityEngine.Experimental.UIElements;
 
 namespace RiskOfThunder.RoR2Importer
 {
-    public class PackageInstaller : OptionalExecutor
+    public class RoR2UnityPackageInstaller : OptionalExecutor
     {
-        public override string Name => string.IsNullOrEmpty(extensionName) ? extensionName = "RoR2 Package Installer" : extensionName;
+        public override string Name => "RoR2 Unity Package Installer";
 
-        public override string Description => $"Modifies your project's Packages folder:" +
-            $"\nInstall Unity's PostProcessingPackage (Version 2.3.0)" +
-            $"\nRemoves Unity's TextMeshPro package";
-        public override int Priority => Constants.ConfigPriority.AssemblyImport + 250_000;
+        public override string Description => 
+            $"Installs Unity PostProcessing Version 2.3.0" +
+            $"\nRemoves Unity TextMeshPro";
+        public override int Priority => Constants.Priority.UnityPackageInstaller;
 
         public override void Execute()
         {
