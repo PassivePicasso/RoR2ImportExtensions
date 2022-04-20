@@ -4,7 +4,7 @@ using ThunderKit.Core.Config;
 
 namespace RiskOfThunder.RoR2Importer
 {
-    public class Whitelister : WhitelistProcessor
+    public class AssemblyWhitelister : WhitelistProcessor
     {
         public override string Name => "RoR2 Assembly Whitelist";
 
