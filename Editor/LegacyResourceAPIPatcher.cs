@@ -17,10 +17,10 @@ namespace RiskOfThunder.RoR2Importer
 {
     public class LegacyResourceAPIPatcher : OptionalExecutor
     {
-        public override string Name => string.IsNullOrEmpty(extensionName) ? extensionName = "RoR2 LegacyResourceAPI Patcher" : extensionName;
+        public override string Name => "RoR2 LegacyResourceAPI Patcher";
 
         public override string Description => $"Patches the game's LegacyResourcesAPI.dll to improve stability and reduce editor hangs.";
-        public override int Priority => Constants.ConfigPriority.AssemblyImport - 250_000;
+        public override int Priority => Constants.Priority.LegacyResourceAPIPatcher;
 
         public override void Execute()
         {
