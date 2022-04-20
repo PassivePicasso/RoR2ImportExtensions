@@ -4,7 +4,7 @@ using ThunderKit.Core.Config;
 
 namespace RiskOfThunder.RoR2Importer
 {
-    public class Blacklister : BlacklistProcessor
+    public class AssemblyBlacklist : BlacklistProcessor
     {
         public override string Name => "RoR2 Assembly Blacklist";
 
