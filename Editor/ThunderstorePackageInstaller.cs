@@ -1,24 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using ThunderKit.Common;
 using ThunderKit.Core.Config;
 using ThunderKit.Core.Data;
-using ThunderKit.Core.UIElements;
+using ThunderKit.Core.Utilities;
 using ThunderKit.Integrations.Thunderstore;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace RiskOfThunder.RoR2Importer
 {
     public class ThunderstorePackageInstaller : OptionalExecutor
     {
         [Flags]
-        public enum CommonRoR2Dependencies
+        public enum RoR2ThunderstorePackages
         {
             [Description("bepis-BepInExPack")]
             BepInEx,
@@ -27,7 +24,7 @@ namespace RiskOfThunder.RoR2Importer
         }
 
         [Flags]
-        public enum CommonRoR2ThunderKitExtensions
+        public enum RoR2ThunderKitExtensions
         {
             [Description("RiskofThunder-RoR2EditorKit")]
             RoR2EditorKit = 1,
@@ -35,47 +32,40 @@ namespace RiskOfThunder.RoR2Importer
             RoR2MultiplayerHLAPI = 2
         }
 
-        public override int Priority => ThunderKit.Common.Constants.ConfigPriority.AddressableCatalog - 50_000;
+        public override int Priority => Constants.Priority.ThunderstorePackageInstaller;
         public override string Description => $"Thunderstore related import options for RoR2";
         public override string Name => $"Thunderstore Package Installer";
+        protected override string UITemplatePath => "Packages/riskofthunder-ror2importer/UXML/ThunderstorePackageInstaller.uxml";
 
-        public bool createRoR2Source = true;
-        public CommonRoR2Dependencies ror2Dependencies = CommonRoR2Dependencies.R2API | CommonRoR2Dependencies.BepInEx;
-
-        public CommonRoR2ThunderKitExtensions thunderKitExtensions = CommonRoR2ThunderKitExtensions.RoR2EditorKit | CommonRoR2ThunderKitExtensions.RoR2MultiplayerHLAPI;
-
-        private VisualElement rootElement;
+        public bool CreateRoR2Source = true;
+        public RoR2ThunderstorePackages RoR2Dependencies = RoR2ThunderstorePackages.R2API | RoR2ThunderstorePackages.BepInEx;
+        public RoR2ThunderKitExtensions ThunderKitExtensions = RoR2ThunderKitExtensions.RoR2EditorKit | RoR2ThunderKitExtensions.RoR2MultiplayerHLAPI;
 
         [SerializeField]
         private ThunderstoreSource ror2Source;
 
-        protected override VisualElement CreateProperties()
-        {
-            rootElement = new VisualElement();
-            rootElement = TemplateHelpers.LoadTemplateInstance("Packages/riskofthunder-ror2importer/Editor/ThunderstorePackageInstaller.uxml", rootElement);
-            rootElement.AddEnvironmentAwareSheets(Constants.ThunderKitSettingsTemplatePath);
-            return rootElement;
-        }
-
         public override void Execute()
         {
-            if(createRoR2Source)
+            if (CreateRoR2Source)
             {
-                if (ror2Source == null)
-                    GetOrCreateRoR2Source();
+                if (!ror2Source) GetOrCreateRoR2Source();
+
                 PackageSource.LoadAllSources();
-                InstallModsFromRoR2Source();
             }
+            if (ror2Source)
+                InstallModsFromRoR2Source().RunSynchronously();
 
             InstallThunderKitExtensions();
+
+            PackageHelper.ResolvePackages();
         }
 
         private void GetOrCreateRoR2Source()
         {
             var pss = ThunderKitSetting.GetOrCreateSettings<PackageSourceSettings>();
-            foreach(var source in pss.PackageSources)
+            foreach (var source in pss.PackageSources)
             {
-                if(source is ThunderstoreSource tsSource)
+                if (source is ThunderstoreSource tsSource)
                 {
                     if (tsSource.Url == "https://thunderstore.io")
                     {
@@ -91,20 +81,20 @@ namespace RiskOfThunder.RoR2Importer
             AssetDatabase.CreateAsset(ror2Source, "Assets/ThunderKitSettings/RoR2Thunderstore.asset");
         }
 
-        private async void InstallModsFromRoR2Source()
+        private async Task InstallModsFromRoR2Source()
         {
             try
             {
                 EditorApplication.LockReloadAssemblies();
-                foreach(CommonRoR2Dependencies dependency in Enum.GetValues(typeof(CommonRoR2Dependencies)))
+                foreach (RoR2ThunderstorePackages dependency in Enum.GetValues(typeof(RoR2ThunderstorePackages)))
                 {
-                    if (!ror2Dependencies.HasFlag(dependency))
+                    if (!RoR2Dependencies.HasFlag(dependency))
                         continue;
 
                     string valueName = dependency.GetDescription();
 
                     var pss = ThunderKitSetting.GetOrCreateSettings<PackageSourceSettings>();
-                    foreach(var source in pss.PackageSources)
+                    foreach (var source in pss.PackageSources)
                     {
                         var package = source.Packages.FirstOrDefault(pkg => pkg.DependencyId == valueName);
                         if (package == null)
@@ -124,7 +114,7 @@ namespace RiskOfThunder.RoR2Importer
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Debug.LogError(ex);
             }
@@ -139,9 +129,9 @@ namespace RiskOfThunder.RoR2Importer
             try
             {
                 EditorApplication.LockReloadAssemblies();
-                foreach (CommonRoR2Dependencies dependency in Enum.GetValues(typeof(CommonRoR2Dependencies)))
+                foreach (RoR2ThunderstorePackages dependency in Enum.GetValues(typeof(RoR2ThunderstorePackages)))
                 {
-                    if (!ror2Dependencies.HasFlag(dependency))
+                    if (!RoR2Dependencies.HasFlag(dependency))
                         continue;
 
                     string valueName = dependency.GetDescription();
