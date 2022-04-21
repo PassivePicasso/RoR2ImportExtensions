@@ -13,7 +13,7 @@ namespace RiskOfThunder.RoR2Importer
     using static ThunderKit.Common.Constants;
     public class AssemblyPublicizerConfiguration : OptionalExecutor
     {
-        public const string NStripExePath = "Packages/bepinex-nstrip/NStrip.exe";
+        public const string NStripExePath = "Packages/riskofthunder-ror2importer/NStrip.exe";
         public override string Name => "Assembly Publicizer";
         public override string Description => "Listed assemblies will be publicized using NStrip." +
             "\nPublicized assemblies retain their inspector look and functionality, this does not strip assemblies.";
@@ -64,7 +64,7 @@ namespace RiskOfThunder.RoR2Importer
                     rootVisualElement.Add(MessageElement);
                 }
             }
-
+            
             PropertyField nstripField = new PropertyField(executableProperty);
             nstripField.tooltip = $"The NStrip executable, this is used for the publicizing system" +
                 $"\nIf this field appears to be empty, then the RoR2Importer has failed to find the executable automatically." +
