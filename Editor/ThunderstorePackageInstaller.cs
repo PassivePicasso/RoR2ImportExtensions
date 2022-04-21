@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Linq;
-using System.Threading.Tasks;
 using ThunderKit.Common;
 using ThunderKit.Core.Config;
 using ThunderKit.Core.Data;
@@ -17,15 +16,17 @@ namespace RiskOfThunder.RoR2Importer
         [Flags]
         public enum RoR2ThunderstorePackages
         {
-            [Description("bepis-BepInExPack")]
-            BepInEx,
+            Nothing = 0,
+            [Description("bbepis-BepInExPack")]
+            BepInEx = 1,
             [Description("tristanmcpherson-R2API")]
-            R2API
+            R2API = 2
         }
 
         [Flags]
         public enum RoR2ThunderKitExtensions
         {
+            Nothing = 0,
             [Description("RiskofThunder-RoR2EditorKit")]
             RoR2EditorKit = 1,
             [Description("RiskofThunder-RoR2MultiplayerHLAPI")]
@@ -53,7 +54,7 @@ namespace RiskOfThunder.RoR2Importer
                 PackageSource.LoadAllSources();
             }
             if (ror2Source)
-                InstallModsFromRoR2Source().RunSynchronously();
+                InstallModsFromRoR2Source();
 
             InstallThunderKitExtensions();
 
@@ -81,7 +82,7 @@ namespace RiskOfThunder.RoR2Importer
             AssetDatabase.CreateAsset(ror2Source, "Assets/ThunderKitSettings/RoR2Thunderstore.asset");
         }
 
-        private async Task InstallModsFromRoR2Source()
+        private void InstallModsFromRoR2Source()
         {
             try
             {
@@ -110,7 +111,11 @@ namespace RiskOfThunder.RoR2Importer
                         }
 
                         Debug.Log($"Installing latest version of package {valueName});");
-                        await source.InstallPackage(package, "latest");
+                        var task = source.InstallPackage(package, "latest");
+                        while(!task.IsCompleted)
+                        {
+                            
+                        }
                     }
                 }
             }
@@ -124,36 +129,40 @@ namespace RiskOfThunder.RoR2Importer
             }
         }
 
-        private async void InstallThunderKitExtensions()
+        private void InstallThunderKitExtensions()
         {
             try
             {
                 EditorApplication.LockReloadAssemblies();
-                foreach (RoR2ThunderstorePackages dependency in Enum.GetValues(typeof(RoR2ThunderstorePackages)))
+                foreach (RoR2ThunderKitExtensions tsPackage in Enum.GetValues(typeof(RoR2ThunderKitExtensions)))
                 {
-                    if (!RoR2Dependencies.HasFlag(dependency))
+                    if (!ThunderKitExtensions.HasFlag(tsPackage))
                         continue;
 
-                    string valueName = dependency.GetDescription();
+                    string valName = tsPackage.GetDescription();
 
                     var pss = ThunderKitSetting.GetOrCreateSettings<PackageSourceSettings>();
                     foreach (var source in pss.PackageSources)
                     {
-                        var package = source.Packages.FirstOrDefault(pkg => pkg.DependencyId == valueName);
+                        var package = source.Packages.FirstOrDefault(pkg => pkg.DependencyId == valName);
                         if (package == null)
                         {
-                            Debug.LogWarning($"Could not find package with DependencyId of {valueName}");
+                            Debug.LogWarning($"Could not find package with DependencyId of {valName}");
                             continue;
                         }
 
                         if (package.Installed)
                         {
-                            Debug.LogWarning($"Not installing package with DependencyId of {valueName} because it's already installed");
+                            Debug.LogWarning($"Not installing package with DependencyId of {valName} because it's already installed");
                             continue;
                         }
 
-                        Debug.Log($"Installing latest version of package {valueName});");
-                        await source.InstallPackage(package, "latest");
+                        Debug.Log($"Installing latest version of package {valName});");
+                        var task = source.InstallPackage(package, "latest");
+                        while (!task.IsCompleted)
+                        {
+
+                        }
                     }
                 }
             }
@@ -168,3 +177,4 @@ namespace RiskOfThunder.RoR2Importer
         }
     }
 }
+
