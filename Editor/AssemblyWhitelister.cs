@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using ThunderKit.Core.Config;
+using ThunderKit.Core.Data;
 
 namespace RiskOfThunder.RoR2Importer
 {
@@ -12,7 +13,12 @@ namespace RiskOfThunder.RoR2Importer
 
         public override IEnumerable<string> Process(IEnumerable<string> whitelist)
         {
-            return whitelist.Append("Unity.TextMeshPro.dll");
+            var importConfiguration = ThunderKitSetting.GetOrCreateSettings<ImportConfiguration>();
+
+            if (importConfiguration.ConfigurationExecutors.OfType<TextMeshProUninstaller>().Any(ie => ie.enabled))
+                whitelist = whitelist.Append("Unity.TextMeshPro.dll");
+
+            return whitelist;
         }
     }
 }
