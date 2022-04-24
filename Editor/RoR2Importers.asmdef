@@ -5,7 +5,8 @@
         "ThunderKit.Common",
         "BsDiff",
         "ThunderKit.Markdown",
-        "ThunderKit.Thunderstore"
+        "ThunderKit.Thunderstore",
+        "ThunderKit.Addressable.Config"
     ],
     "includePlatforms": [
         "Editor"
