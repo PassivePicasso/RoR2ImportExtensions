@@ -14,7 +14,7 @@ namespace RiskOfThunder.RoR2Importer
         public override string Description => $"Patches the game's LegacyResourcesAPI.dll to improve stability and reduce editor hangs.";
         public override int Priority => Constants.Priority.LegacyResourceAPIPatcher;
 
-        public override void Execute()
+        public override bool Execute()
         {
             var settings = ThunderKitSetting.GetOrCreateSettings<ThunderKitSettings>();
             var legacyResourceAPIOrig = Path.GetFullPath(Path.Combine(settings.ManagedAssembliesPath, "LegacyResourcesAPI.dll"));
@@ -39,6 +39,7 @@ namespace RiskOfThunder.RoR2Importer
             {
                 var x = escape;
             }
+            return true;
         }
     }
 }

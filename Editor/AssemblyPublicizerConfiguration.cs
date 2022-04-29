@@ -29,7 +29,7 @@ namespace RiskOfThunder.RoR2Importer
         {
             get
             {
-                if(_messageElement == null)
+                if (_messageElement == null)
                 {
                     _messageElement = new MarkdownElement();
                     _messageElement.MarkdownDataType = MarkdownDataType.Text;
@@ -39,8 +39,7 @@ namespace RiskOfThunder.RoR2Importer
         }
         private MarkdownElement _messageElement;
 
-        public override void Execute()
-        { }
+        public override bool Execute() => true;
 
         protected override VisualElement CreateProperties()
         {
@@ -53,7 +52,7 @@ namespace RiskOfThunder.RoR2Importer
             if (executableProperty.objectReferenceValue == null)
             {
                 //If NStrip couldnt be located, display warning
-                if(TryToFindNStripExecutable(out var executable))
+                if (TryToFindNStripExecutable(out var executable))
                 {
                     executableProperty.objectReferenceValue = executable;
                     serializedObject.ApplyModifiedProperties();
@@ -64,7 +63,7 @@ namespace RiskOfThunder.RoR2Importer
                     rootVisualElement.Add(MessageElement);
                 }
             }
-            
+
             PropertyField nstripField = new PropertyField(executableProperty);
             nstripField.tooltip = $"The NStrip executable, this is used for the publicizing system" +
                 $"\nIf this field appears to be empty, then the RoR2Importer has failed to find the executable automatically." +
@@ -84,7 +83,7 @@ namespace RiskOfThunder.RoR2Importer
             if (nstrip == null)
             {
                 MessageElement.Data = $"***__WARNING__***: Could not find NStrip Executable! Hover over the \"N Strip Executable\" field for instructions.";
-                if(!rootVisualElement.Contains(MessageElement))
+                if (!rootVisualElement.Contains(MessageElement))
                 {
                     rootVisualElement.Add(MessageElement);
                 }
@@ -98,7 +97,7 @@ namespace RiskOfThunder.RoR2Importer
             if (fileName != "NStrip.exe")
             {
                 MessageElement.Data = $"Object in \"N Strip Executable\" is not NStrip!";
-                if(!rootVisualElement.Contains(MessageElement))
+                if (!rootVisualElement.Contains(MessageElement))
                 {
                     rootVisualElement.Add(MessageElement);
                 }
