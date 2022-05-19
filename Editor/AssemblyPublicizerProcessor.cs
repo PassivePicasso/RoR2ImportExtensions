@@ -15,6 +15,7 @@ namespace RiskOfThunder.RoR2Importer
     {
         public override int Priority => 500;
         public override string Name => $"Assembly Publicizer Processor";
+
         public override string Process(string assemblyPath)
         {
             AssemblyPublicizerConfiguration dataStorer = AssemblyPublicizerConfiguration.GetDataStorer();
@@ -36,13 +37,11 @@ namespace RiskOfThunder.RoR2Importer
 
             string ror2ManagedDir = ThunderKitSetting.GetOrCreateSettings<ThunderKitSettings>().ManagedAssembliesPath;
 
-            string thunderkitRoot = Application.dataPath.Replace("Assets", "ThunderKit");
-            string nstripFolder = Path.Combine(thunderkitRoot, "NStrip");
-            if(!Directory.Exists(nstripFolder))
+            if(!Directory.Exists(Constants.Paths.PublicizedAssembliesFolder))
             {
-                Directory.CreateDirectory(nstripFolder);
+                Directory.CreateDirectory(Constants.Paths.PublicizedAssembliesFolder);
             }
-            string outputPath = Path.Combine(nstripFolder, assemblyFileName);
+            string outputPath = Path.Combine(Constants.Paths.PublicizedAssembliesFolder, assemblyFileName);
             string nstripPath = Path.GetFullPath(AssetDatabase.GetAssetPath(nstripExe));
 
             List<string> arguments = new List<string>

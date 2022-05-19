@@ -6,6 +6,7 @@ using ThunderKit.Core.Data;
 using ThunderKit.Markdown;
 using UnityEditor;
 using UnityEditor.UIElements;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace RiskOfThunder.RoR2Importer
@@ -13,7 +14,6 @@ namespace RiskOfThunder.RoR2Importer
     using static ThunderKit.Common.Constants;
     public class AssemblyPublicizerConfiguration : OptionalExecutor
     {
-        public const string NStripExePath = "Packages/riskofthunder-ror2importer/NStrip.exe";
         public override string Name => "Assembly Publicizer";
         public override string Description => "Listed assemblies will be publicized using NStrip." +
             "\nPublicized assemblies retain their inspector look and functionality, this does not strip assemblies.";
@@ -109,7 +109,7 @@ namespace RiskOfThunder.RoR2Importer
 
         private bool TryToFindNStripExecutable(out UnityEngine.Object nstripExecutable)
         {
-            nstripExecutable = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(NStripExePath);
+            nstripExecutable = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(Constants.Paths.NStripExePath);
             if (!nstripExecutable)
             {
                 var nstripPath = AssetDatabase.FindAssets("", FindAllFolders)
@@ -128,6 +128,15 @@ namespace RiskOfThunder.RoR2Importer
             var settings = ThunderKitSetting.GetOrCreateSettings<ImportConfiguration>();
             var publicizerDataStorer = settings.ConfigurationExecutors.OfType<AssemblyPublicizerConfiguration>().FirstOrDefault();
             return publicizerDataStorer;
+        }
+
+        public override void Cleanup()
+        {
+            var publicizedAssemblies = Directory.EnumerateFiles(Constants.Paths.PublicizedAssembliesFolder, "*.dll", SearchOption.AllDirectories);
+            foreach(string assemblyPath in publicizedAssemblies)
+            {
+                File.Delete(assemblyPath);
+            }
         }
     }
 }

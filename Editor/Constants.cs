@@ -1,6 +1,7 @@
 ﻿namespace RiskOfThunder.RoR2Importer
 {
-
+    using System.IO;
+    using UnityEngine;
     using TkPriority = ThunderKit.Common.Constants.Priority;
     public static class Constants
     {
@@ -17,6 +18,19 @@
             public const int InstallMLAPI = TkPriority.AddressableCatalog - 155_000;
             public const int InstallRoR2EK = TkPriority.AddressableCatalog - 160_000;
             public const int ThunderstorePackageInstaller = TkPriority.AddressableCatalog - 250_000;
+        }
+
+        public static class Paths
+        {
+            public const string NStripExePath = "Packages/riskofthunder-ror2importer/NStrip.exe";
+            public static string PublicizedAssembliesFolder
+            {
+                get
+                {
+                    string tempFolder = Application.dataPath.Replace("Assets", "Temp");
+                    return Path.Combine(tempFolder, "ThunderKit", "PublicizedAssemblies");
+                }
+            }
         }
     }
 }

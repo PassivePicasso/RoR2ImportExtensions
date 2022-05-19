@@ -2,7 +2,7 @@
 
 namespace RiskOfThunder.RoR2Importer
 {
-    public class InstallR2API : ThunderstorePackageInstaller
+    public class InstallFPTS : ThunderstorePackageInstaller
     {
         public override int Priority => Constants.Priority.InstallFPTS;
         public override string ThunderstoreAddress => "https://thunderstore.io";
