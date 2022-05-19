@@ -6,7 +6,6 @@ using ThunderKit.Core.Data;
 using ThunderKit.Markdown;
 using UnityEditor;
 using UnityEditor.UIElements;
-using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace RiskOfThunder.RoR2Importer
@@ -133,7 +132,7 @@ namespace RiskOfThunder.RoR2Importer
         public override void Cleanup()
         {
             var publicizedAssemblies = Directory.EnumerateFiles(Constants.Paths.PublicizedAssembliesFolder, "*.dll", SearchOption.AllDirectories);
-            foreach(string assemblyPath in publicizedAssemblies)
+            foreach (string assemblyPath in publicizedAssemblies)
             {
                 File.Delete(assemblyPath);
             }

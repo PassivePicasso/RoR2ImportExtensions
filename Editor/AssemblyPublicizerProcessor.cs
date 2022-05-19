@@ -5,7 +5,6 @@ using System.Linq;
 using ThunderKit.Core.Config;
 using ThunderKit.Core.Data;
 using UnityEditor;
-using UnityEngine;
 using Debug = UnityEngine.Debug;
 using UObject = UnityEngine.Object;
 
@@ -20,7 +19,7 @@ namespace RiskOfThunder.RoR2Importer
         {
             AssemblyPublicizerConfiguration dataStorer = AssemblyPublicizerConfiguration.GetDataStorer();
             //Publicizer not enabled? dont publicize
-            if(!dataStorer.enabled)
+            if (!dataStorer.enabled)
                 return assemblyPath;
 
             var assemblyFileName = Path.GetFileName(assemblyPath);
@@ -37,7 +36,7 @@ namespace RiskOfThunder.RoR2Importer
 
             string ror2ManagedDir = ThunderKitSetting.GetOrCreateSettings<ThunderKitSettings>().ManagedAssembliesPath;
 
-            if(!Directory.Exists(Constants.Paths.PublicizedAssembliesFolder))
+            if (!Directory.Exists(Constants.Paths.PublicizedAssembliesFolder))
             {
                 Directory.CreateDirectory(Constants.Paths.PublicizedAssembliesFolder);
             }
