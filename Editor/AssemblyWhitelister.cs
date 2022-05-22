@@ -18,6 +18,8 @@ namespace RiskOfThunder.RoR2Importer
             if (importConfiguration.ConfigurationExecutors.OfType<TextMeshProUninstaller>().Any(ie => ie.enabled))
                 whitelist = whitelist.Append("Unity.TextMeshPro.dll");
 
+            if (importConfiguration.ConfigurationExecutors.OfType<UGUIUninstaller>().Any(ie => ie.enabled))
+                whitelist = whitelist.Append("UnityEngine.UI.dll");
             return whitelist;
         }
     }

@@ -9,6 +9,7 @@
         {
             public const int PostProcessingInstaller = TkPriority.AssemblyImport + 250_000;
             public const int TextMeshProUninstaller = TkPriority.AssemblyImport + 240_000;
+            public const int UGUIUninstaller = TkPriority.AssemblyImport + 230_000;
             public const int AssemblyPublicizerConfiguration = TkPriority.AssemblyImport + 125_000;
             public const int LegacyResourceAPIPatcher = TkPriority.AssemblyImport - 250_000;
             public const int EnsureRoR2Thunderstore = TkPriority.AddressableCatalog - 125_000;
