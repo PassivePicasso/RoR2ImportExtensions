@@ -5,7 +5,6 @@ using System.Linq;
 using ThunderKit.Core.Config;
 using ThunderKit.Core.Data;
 using UnityEditor;
-using UnityEngine;
 using Debug = UnityEngine.Debug;
 using UObject = UnityEngine.Object;
 
@@ -15,11 +14,12 @@ namespace RiskOfThunder.RoR2Importer
     {
         public override int Priority => 500;
         public override string Name => $"Assembly Publicizer Processor";
+
         public override string Process(string assemblyPath)
         {
             AssemblyPublicizerConfiguration dataStorer = AssemblyPublicizerConfiguration.GetDataStorer();
             //Publicizer not enabled? dont publicize
-            if(!dataStorer.enabled)
+            if (!dataStorer.enabled)
                 return assemblyPath;
 
             var assemblyFileName = Path.GetFileName(assemblyPath);
@@ -36,13 +36,11 @@ namespace RiskOfThunder.RoR2Importer
 
             string ror2ManagedDir = ThunderKitSetting.GetOrCreateSettings<ThunderKitSettings>().ManagedAssembliesPath;
 
-            string thunderkitRoot = Application.dataPath.Replace("Assets", "ThunderKit");
-            string nstripFolder = Path.Combine(thunderkitRoot, "NStrip");
-            if(!Directory.Exists(nstripFolder))
+            if (!Directory.Exists(Constants.Paths.PublicizedAssembliesFolder))
             {
-                Directory.CreateDirectory(nstripFolder);
+                Directory.CreateDirectory(Constants.Paths.PublicizedAssembliesFolder);
             }
-            string outputPath = Path.Combine(nstripFolder, assemblyFileName);
+            string outputPath = Path.Combine(Constants.Paths.PublicizedAssembliesFolder, assemblyFileName);
             string nstripPath = Path.GetFullPath(AssetDatabase.GetAssetPath(nstripExe));
 
             List<string> arguments = new List<string>
