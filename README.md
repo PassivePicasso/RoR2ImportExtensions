@@ -29,6 +29,10 @@ An importer to automatically generate an MMHook for RoR2.dll
 
 ## Changelog
 
+### '1.0.1'
+
+- Fixed an issue with the legacy resources api patcher
+
 ### '1.0.0'
 
 - Initial Release
