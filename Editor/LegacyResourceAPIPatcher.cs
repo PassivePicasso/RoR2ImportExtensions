@@ -10,6 +10,6 @@ namespace RiskOfThunder.RoR2Importer
         public override string Description => $"Patches the game's LegacyResourcesAPI.dll to improve stability and reduce editor hangs.";
         public override int Priority => Constants.Priority.LegacyResourceAPIPatcher;
         public override string AssemblyFileName => "LegacyResourcesAPI.dll";
-        public override string BsDiffPatchPath => Path.Combine("Packages", "riskofthunder-ror2importer", "BinaryDiff", "LegacyResourcesAPI.diff");
+        public override string BsDiffPatchPath => Path.Combine("Packages", "riskofthunder-ror2importextensions", "BinaryDiff", "LegacyResourcesAPI.diff");
     }
 }
