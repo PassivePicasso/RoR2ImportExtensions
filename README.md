@@ -31,7 +31,11 @@ An importer to automatically generate an MMHook for RoR2.dll
 
 ### '1.0.1'
 
-- Fixed an issue with the legacy resources api patcher
+- Add importer to fix graphics settings, enabling consistent rendering of shaders in the editor
+
+### '1.0.1'
+
+- Fix legacy api patcher path by @PassivePicasso in #3
 
 ### '1.0.0'
 
