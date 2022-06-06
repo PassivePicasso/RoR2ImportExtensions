@@ -29,7 +29,11 @@ An importer to automatically generate an MMHook for RoR2.dll
 
 ## Changelog
 
-### '1.0.1'
+### `1.1.0`
+
+- Add SetDeferredShading to fix Graphics settings not collected by Import Project settings
+
+### '1.0.2'
 
 - Add importer to fix graphics settings, enabling consistent rendering of shaders in the editor
 

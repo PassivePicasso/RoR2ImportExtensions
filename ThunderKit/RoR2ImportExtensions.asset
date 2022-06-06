@@ -1,0 +1,76 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-2523868314809717836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f22bb7fd1d3b56a48bc52f8e407901d6, type: 3}
+  m_Name: ManifestIdentity
+  m_EditorClassIdentifier: 
+  StagingPaths: []
+  Author: RiskofThunder
+  Name: RoR2ImportExtensions
+  Description: Import extensions for ThunderKit to stabilize and complete the RoR2
+    import process
+  Version: 1.0.3
+  Dependencies: []
+--- !u!114 &-221931170887336229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b243ff405b33b94dbf5b6775dd9aa33, type: 3}
+  m_Name: Files
+  m_EditorClassIdentifier: 
+  StagingPaths:
+  - <ManifestStagingRoot>
+  files:
+  - {fileID: 102900000, guid: 76fc07f41d935a5499376eae32632a4a, type: 3}
+  - {fileID: 102900000, guid: 76264013995a07742bc254728cec9d38, type: 3}
+  - {fileID: 102900000, guid: 7067b244165191e459e1e664dac5ac37, type: 3}
+  - {fileID: 2800000, guid: e0c09b67a02dde347a9bc4d966ae63bf, type: 3}
+  - {fileID: 4900000, guid: 936613f8511b20a4880d5858f8789847, type: 3}
+  - {fileID: 4900000, guid: c5238b68c91ab8d4f8e3fda1cc6e0250, type: 3}
+  - {fileID: 4900000, guid: 65ff9c3aad2d4d94aa9995b3b24126af, type: 3}
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e563561e08b6a3642a487177f5cfbb37, type: 3}
+  m_Name: RoR2ImportExtensions
+  m_EditorClassIdentifier: 
+  Data:
+  - {fileID: -2523868314809717836}
+  - {fileID: -221931170887336229}
+  - {fileID: 2292054361292754133}
+  identity: {fileID: -2523868314809717836}
+  QuickAccess: 0
+--- !u!114 &2292054361292754133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0a82fec78ebc734d9ad1346cd40b5f9, type: 3}
+  m_Name: ThunderstoreData
+  m_EditorClassIdentifier: 
+  StagingPaths:
+  - <ManifestStagingRoot>
+  url: 
