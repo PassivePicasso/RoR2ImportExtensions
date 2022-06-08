@@ -6,7 +6,7 @@
     "url": ""
   },
   "displayName": "RoR2 Import Extensions",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "unity": "2019.4",
   "description": "Import extensions for ThunderKit to stabilize and complete the RoR2 import process"
 }
